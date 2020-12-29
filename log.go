@@ -27,6 +27,11 @@ func Terminal(w io.Writer) slog.Logger {
 	return sloghuman.Make(w)
 }
 
+// F creates a field
+func F(key string, value interface{}) Field {
+	return Field(slog.F(key, value))
+}
+
 var (
 	// LevelDebug is used for development and debugging messages.
 	LevelDebug = Level(slog.LevelDebug)
