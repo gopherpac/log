@@ -1,0 +1,35 @@
+// creating
+var log = xlog.New(log.Config{
+    Level: log.DEBUG,
+    Stream: concurrentwriter.New(os.Stdout),
+    Format: log.Text{
+        Format: "%{time} %{loc} [%{gid}] %{level} ▶ %{message} %{ctx} %{field}",
+        Fields: []log.Writer{
+            log.Time{Format: time.RFC3339},
+            log.Location{Depth: 2},
+            log.GID{},
+            log.Level{},
+            log.Message{},
+            log.Fields{},
+        },
+    },
+    // OR
+    Format: log.JSON{
+        Fields: [].log.Writer{
+            log.Time{Format: "UTC", Fmt: json.Time{}},
+            log.Package{Fmt: json.Package{}},
+            log.Location{Depth: 2, Fmt: json.Location{}},
+            log.GID{Fmt: json.GID{}},
+            log.Level{Fmt: json.Level{}},
+            log.Message{Fmt: json.Message{}},
+            log.Fields{Fmt: json.Fields{}},
+        }
+    }
+})
+
+// using
+log.Info("info message", xlog.Str("user", "dmr), xlog.Int("rank", 80))
+log.Error("unable to connect database", xlog.Error(err))
+log.Error("enable to connect database", xlog.Str("k1", "v1").Err(err))
+
+
